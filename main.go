@@ -1,7 +1,7 @@
 package main
 
 import (
-	"net/http"
+	"basic_echo/router"
 
 	"github.com/labstack/echo/v4"
 )
@@ -9,8 +9,6 @@ import (
 func main() {
 
 	e := echo.New()
-	e.GET("/", func(ctx echo.Context) error {
-		return ctx.String(http.StatusOK, "Hello World")
-	})
+	router.InitialRoutes(e)
 	e.Logger.Fatal(e.Start(":3070"))
 }
