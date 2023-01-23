@@ -7,5 +7,9 @@ import (
 )
 
 func InitialRoutes(e *echo.Echo) {
-	e.GET("/products", services.GetProducts)
+
+	productsGroup := e.Group("/products")
+	productsGroup.GET("", services.GetProducts)
+	productsGroup.POST("", services.CreateNewProduct)
+
 }

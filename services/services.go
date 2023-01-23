@@ -16,7 +16,7 @@ func GetProducts(ctx echo.Context) error {
 	var data, err = repository.GetProducts()
 
 	if err != nil {
-		return ctx.JSON(http.StatusOK, repository.Response{
+		return ctx.JSON(http.StatusInternalServerError, repository.Response{
 			Status: false,
 			Code:   http.StatusInternalServerError,
 			Data:   err.Error(),
@@ -28,6 +28,38 @@ func GetProducts(ctx echo.Context) error {
 			Code:   http.StatusOK,
 			Data:   data,
 		})
+	}
+
+}
+
+func CreateNewProduct(ctx echo.Context) error {
+
+	reqBody := new(repository.Product)
+	err := ctx.Bind(reqBody)
+	if err != nil {
+		return ctx.JSON(http.StatusInternalServerError, repository.Response{
+			Status: false,
+			Code:   http.StatusInternalServerError,
+			Data:   nil,
+		})
+
+	} else {
+		status := repository.CreateNewProduct(*reqBody)
+
+		if status {
+			return ctx.JSON(http.StatusOK, repository.Response{
+				Status: true,
+				Code:   http.StatusOK,
+				Data:   *reqBody,
+			})
+		} else {
+			return ctx.JSON(http.StatusInternalServerError, repository.Response{
+				Status: false,
+				Code:   http.StatusInternalServerError,
+				Data:   nil,
+			})
+
+		}
 	}
 
 }

@@ -1,9 +1,5 @@
 package repository
 
-import (
-	"errors"
-)
-
 type Response struct {
 	Status bool        `json:"status"`
 	Code   int         `json:"code"`
@@ -24,6 +20,13 @@ var productList []Product = []Product{
 }
 
 func GetProducts() (res []Product, err error) {
-	err = errors.New("Exception : New Exception")
+	// err = errors.New("Exception : New Exception")
+	res = productList
 	return res, err
+}
+
+func CreateNewProduct(newProduct Product) (status bool) {
+	productList = append(productList, newProduct)
+	return true
+
 }
