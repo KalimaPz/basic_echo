@@ -63,3 +63,23 @@ func CreateNewProduct(ctx echo.Context) error {
 	}
 
 }
+
+func GetProductByCatergory(ctx echo.Context) error {
+	data, err := repository.GetProductByCatergory(ctx.QueryParam("catergory"))
+
+	if err != nil {
+		return ctx.JSON(http.StatusOK, repository.Response{
+
+			Status: false,
+			Code:   http.StatusInternalServerError,
+			Data:   err.Error(),
+		})
+	} else {
+		return ctx.JSON(http.StatusOK, repository.Response{
+
+			Status: true,
+			Code:   http.StatusOK,
+			Data:   data,
+		})
+	}
+}
