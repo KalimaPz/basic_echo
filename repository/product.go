@@ -18,6 +18,7 @@ import (
 )
 
 var mongoClient *mongo.Client
+var productsCollection *mongo.Collection
 
 func InitializeMongoConnection(ctx *echo.Echo) error {
 	var connectionString string
@@ -37,6 +38,8 @@ func InitializeMongoConnection(ctx *echo.Echo) error {
 	mongoClient, err = mongo.NewClient(options.Client().ApplyURI(connectionString))
 
 	mongoClient.Connect(context.TODO())
+	productsCollection = mongoClient.Database("store").Collection("products")
+
 	if err == nil {
 		fmt.Println("Mongo Connect : Success")
 	} else {
@@ -83,7 +86,6 @@ func RepCreateNewProduct(newProduct models.Product) interface{} {
 func RepGetAllProducts() []models.Product {
 
 	filter := bson.D{}
-	productsCollection := mongoClient.Database("store").Collection("products")
 
 	cursor, _ := productsCollection.Find(context.TODO(), filter)
 
@@ -94,7 +96,7 @@ func RepGetAllProducts() []models.Product {
 
 func RepGetAllProductByPriceRange(min float32, max float32) []models.Product {
 	var result []models.Product
-	productsCollection := mongoClient.Database("store").Collection("products")
+
 	filter := bson.D{
 		{Key: "$and",
 			Value: bson.A{
