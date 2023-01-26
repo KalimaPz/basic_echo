@@ -6,6 +6,6 @@ type Product struct {
 	Brand      string  `json:"brand"`
 	Price      float32 `json:"price"`
 	Category   string  `json:"catagory"`
-	Created_at string  `json:"created_at"`
-	Updated_at string  `json:"updated_at"`
+	Created_at int64   `json:"created_at"`
+	Updated_at int64   `json:"updated_at"`
 }
